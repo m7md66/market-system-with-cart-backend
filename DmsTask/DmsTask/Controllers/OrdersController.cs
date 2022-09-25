@@ -1,6 +1,7 @@
-﻿using DmsTask.Data;
-using DmsTask.Models;
-using DmsTask.ViewModels;
+﻿using DmsTask.Models;
+using DmsTask.Persistence;
+using DmsTask.Persistence.IRepositories;
+using DmsTask.Resource.Order;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,27 +25,24 @@ namespace DmsTask.Controllers
 
 
         [HttpPost("AddProduct")]
-        public async Task<IActionResult> AddOrder([FromBody] OrderViewModel orderViewModel)
+        public async Task<IActionResult> AddOrder([FromBody] OrderDto orderDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-                await orderRepository.Add(orderViewModel);
+                await orderRepository.Add(orderDto);
                      return Ok();
         }
+
         [HttpGet("GetOrders")]
         public  IActionResult GetOrders()
         {
-            
-          var list=
-                context.OrderDetails
-                .Select(q => new {Customer=q.Order.UserCustomer.CustomerDescription, OrderDate= q.Order.OrderDate, ItemName=q.ItemObj.Item,ItemPrice=q.ItemObj.Price,quantity=q.Quantity,UOM=q.ItemObj.unitOfMeasure.UOM ,Discount=q.Discount }).ToList();
-            if (list == null)
+            var orders = orderRepository.GetOrders();
+         
+            if (orders == null)
             {
                 return NotFound("List is empty");
             }
-            return Ok(list);
-
-
+            return Ok(orders);
         }
 
 

@@ -1,9 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "dSnoVSfJ7J9xO0YFo7zcZ5mu1aZJ9e9XSfizacyxxrfNIfWTEtxGU8ZAXUjYcq9ywUjcHj8WdOQiAO/vrRzyTg==",
+  "dgSpecHash": "pCQbNRTJ7q4MyDdJpTpBuxK7++dc+kkYnpmtCglYHyGnQzkWz7FLKkaJ8t79YRbWDFpI1RSnT781SqId2iRGQQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\USER\\OneDrive\\Desktop\\DmsTask\\DmsTask\\DmsTask.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\USER\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",
+    "C:\\Users\\USER\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
+    "C:\\Users\\USER\\.nuget\\packages\\fluentvalidation\\11.2.0\\fluentvalidation.11.2.0.nupkg.sha512",
+    "C:\\Users\\USER\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.2.1\\fluentvalidation.aspnetcore.11.2.1.nupkg.sha512",
+    "C:\\Users\\USER\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.2.0\\fluentvalidation.dependencyinjectionextensions.11.2.0.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",

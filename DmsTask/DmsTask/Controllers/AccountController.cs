@@ -1,6 +1,6 @@
-﻿using DmsTask.Data;
-using DmsTask.Models;
-using identityWithChristina.ViewModel;
+﻿using DmsTask.Models;
+using DmsTask.Persistence.IRepositories;
+using DmsTask.Resource.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -33,14 +33,13 @@ namespace DmsTask.Controllers
 
         //registration
         [HttpPost]
-        public async Task<ActionResult> Registration(RegisterAccountViewModel newAccount)
+        public async Task<ActionResult> Registration(RegisterDto newAccount)
         {
             if (ModelState.IsValid)
             {
-                AppUser user = _accountRepository.AddRegistration(newAccount);
-                IdentityResult result = await userManager.CreateAsync(user, newAccount.password);
-              //  await userManager.AddToRoleAsync(user, "customer");
-                if (result.Succeeded)
+                AppUser user = await _accountRepository.AddRegistration(newAccount);
+              
+                if (user !=null)
                 {
                     return Ok(user);
                  }
@@ -55,28 +54,23 @@ namespace DmsTask.Controllers
 
         //login
         [HttpPost("Login")]
-        public async Task<ActionResult> Login([FromBody]LoginViewModel newLogging)
+        public async Task<ActionResult> Login([FromBody]LoginDto newLogging)
         {
-           
-           
                 AppUser user = await userManager.FindByNameAsync(newLogging.UserName);
                 if (user != null)
                 {
-
                 string logResult = await _accountRepository.userLogin(user, newLogging);
                 if (!(logResult == "error"))
-                { return Ok(new {token= logResult }); }
+                  { return Ok(new {token= logResult }); }
                 else
-                {
+                    {
                     return Unauthorized("uncorrect password");
+                    }
                 }
-
-            }
                 else
                 {
                     return Unauthorized("uncorrect user name");
                 }
-            
         }
         //log out
         [HttpGet]
@@ -90,12 +84,12 @@ namespace DmsTask.Controllers
         //Add admin
          [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult> AddAdmin(RegisterAccountViewModel newAccount, [FromQuery] string role)
+        public async Task<ActionResult> AddAdmin(RegisterDto newAccount, [FromQuery] string role)
         {
-            AppUser user = _accountRepository.AddRegistration(newAccount);
 
-            IdentityResult r = await userManager.CreateAsync(user, newAccount.password);
-            if (r.Succeeded)
+            AppUser user =await _accountRepository.AddRegistration(newAccount);
+        
+            if (user !=null)
             {
                  await userManager.AddToRoleAsync(user, role);
                 // await signInManager.SignInAsync(user, false);
@@ -103,11 +97,7 @@ namespace DmsTask.Controllers
             }
             else
             {
-                foreach (var error in r.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-
-                }
+               
              return Problem("proplem");
             }
         }

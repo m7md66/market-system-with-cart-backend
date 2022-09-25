@@ -1,5 +1,6 @@
-﻿using DmsTask.Data;
-using DmsTask.Models;
+﻿using DmsTask.Models;
+using DmsTask.Persistence;
+using DmsTask.Persistence.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,35 +10,27 @@ namespace DmsTask.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    //[Authorize(AuthenticationSchemes = "Bearer")]
     public class ItemsController : ControllerBase
     {
-        private readonly DmsContext _context;
+        private readonly IItemsRepository _itemsRepository;
 
-        public ItemsController(DmsContext dmsTask)
+        public ItemsController(DmsContext dmsTask, IItemsRepository itemsRepository)
         {
-            _context = dmsTask;
+            _itemsRepository = itemsRepository;
         }
 
         [HttpGet]
         public async Task<ActionResult> Getitems()
         {
-            if (_context.Items == null)
-            {
-                return NotFound();
-            }
-            return Ok(await _context.Items.ToListAsync());
+           var items =await _itemsRepository.Getitems();
+            return Ok(items);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> GetItem(int id)
         {
-            if (_context.Items == null)
-            {
-                return Unauthorized();
-            }
-            var item = await _context.Items.FindAsync(id);
-
+            var item = await _itemsRepository.GetItem(id);
             if (item == null)
             {
                 return NotFound();
@@ -48,8 +41,7 @@ namespace DmsTask.Controllers
         [HttpPost]
         public async Task<ActionResult<Items>> AddItem(Items item)
         {
-            _context.Items.Add(item);
-            var result = await _context.SaveChangesAsync();
+           var result=await _itemsRepository.AddItem(item);
             if (result == 1) { return Ok(); }
             else { return Problem("some error"); }
         }
@@ -57,23 +49,12 @@ namespace DmsTask.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteItem(int id)
         {
-            if (_context.Items == null)
-            {
-                return NotFound();
-            }
-            var item = await _context.Items.FindAsync(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            _context.Items.Remove(item);
-            var result = await _context.SaveChangesAsync();
+            var result = await _itemsRepository.DeleteItem(id);
             if (result == 1) { return Ok(); }
             else
             {
                 return Problem("some error");
             }
-
         }
     }
 }

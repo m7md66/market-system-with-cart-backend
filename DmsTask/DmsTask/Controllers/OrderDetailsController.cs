@@ -1,5 +1,5 @@
-﻿using DmsTask.Data;
-using DmsTask.Models;
+﻿using DmsTask.Models;
+using DmsTask.Persistence.IRepositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,39 +10,31 @@ namespace DmsTask.Controllers
     [ApiController]
     public class OrderDetailsController : ControllerBase
     {
-        private readonly DmsContext _context;
+       
+        private readonly IOrderDetailsRepository _orderDetailsRepository;
 
-        public OrderDetailsController(DmsContext context)
+        public OrderDetailsController(IOrderDetailsRepository orderDetailsRepository)
         {
-           _context = context;
+            _orderDetailsRepository = orderDetailsRepository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderDetail>>> GetOrderDetails()
+        public async Task<ActionResult> GetOrderDetails()
         {
-            if (_context.OrderDetails == null)
-            {
-                return NotFound();
-            }
-            return await _context.OrderDetails.ToListAsync();
+            var orderDetails = await _orderDetailsRepository.GetOrderDetails();
+            return Ok(orderDetails);
         }
 
        
         [HttpGet("{id}")]
-        public async Task<ActionResult<OrderDetail>> GetOrderDetail(int id)
+        public async Task<ActionResult> GetOrderDetail(int id)
         {
-            if (_context.OrderDetails == null)
-            {
-                return NotFound();
-            }
-            var orderDetail = await _context.OrderDetails.FindAsync(id);
-
+            var orderDetail = await _orderDetailsRepository.GetOrderDetail(id);
             if (orderDetail == null)
             {
                 return NotFound();
             }
-
-            return orderDetail;
+            return Ok(orderDetail);
         }
 
     }

@@ -807,3 +807,8 @@ C:\Users\USER\OneDrive\Desktop\DmsTask\DmsTask\obj\Debug\net6.0\DmsTask.genrunti
 C:\Users\USER\OneDrive\Desktop\DmsTask\DmsTask\obj\Debug\net6.0\ref\DmsTask.dll
 C:\Users\USER\OneDrive\Desktop\DmsTask\DmsTask\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\USER\OneDrive\Desktop\DmsTask\DmsTask\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\USER\OneDrive\Desktop\DmsTask\DmsTask\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\USER\OneDrive\Desktop\DmsTask\DmsTask\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\USER\OneDrive\Desktop\DmsTask\DmsTask\bin\Debug\net6.0\FluentValidation.dll
+C:\Users\USER\OneDrive\Desktop\DmsTask\DmsTask\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
+C:\Users\USER\OneDrive\Desktop\DmsTask\DmsTask\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
